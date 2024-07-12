@@ -5,7 +5,7 @@ import Stripe from "stripe";
 const stripe = Stripe("sk_test_51PHKMCSBjWEqKCumAamgAt1irxONmrGivo5VI622ozBdSfzdNiLGaq9aZUd4iWZDlZvgCS1vCEK0aQPzkycBiC2U008R7w34hY");
 
 const placeOrder = async (req, res) => {
-  const frontend_url = "http://localhost:5173";
+  const frontend_url = "https://food-del-frontend-kj5m.onrender.com/";
   try {
     // Validate input data
     const { userId, items, amount, address } = req.body;
