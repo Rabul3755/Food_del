@@ -1,8 +1,14 @@
 import React from "react";
 import "./Header.css";
+import { assets } from "../../assets/assets";
+
+const headerStyle ={
+  
+}
+
 const Header = () => {
   return (
-    <div className="header ">
+    <div className="header " style={{backgroundImage:`url (${assets.header_img})`}}>
       <div className="header-content">
         <h2>Order your your favourite food here</h2>
         <p>
