@@ -4,8 +4,9 @@ import { createContext, useEffect, useState } from "react";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const [cartItems, setCartItems] = useState({});
   const url = "https://food-del-backend-ihb4.onrender.com";
+  const [cartItems, setCartItems] = useState({});
+  const currency =''
   const [token, setToken] = useState();
   const [food_list, setFood_list] = useState([]);
 
