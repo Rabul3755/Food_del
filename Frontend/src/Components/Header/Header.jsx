@@ -6,7 +6,7 @@ import { assets } from "../../assets/assets";
 
 const Header = () => {
   return (
-    <div className="header " style={{ backgroundImage:`url (${assets.header_img})`}}>
+    <div className="header " >
       <div className="header-content">
         <h2>Order your your favourite food here</h2>
         <p>
