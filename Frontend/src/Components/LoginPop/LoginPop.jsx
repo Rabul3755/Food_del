@@ -5,7 +5,7 @@ import { StoreContext } from "../../Context/StoreContext";
 import axios from "axios"
 const LoginPop = ({ setShowLogin }) => {
 const {url,setToken}=useContext(StoreContext)
-
+const URL ='https://food-del-backend-ihb4.onrender.com'
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
     name:"",
@@ -21,7 +21,7 @@ const {url,setToken}=useContext(StoreContext)
 
 const onLogin =async (e)=>{
 e.preventDefault();
-let newUrl =url
+let newUrl =URL
 if(currState==="Login"){
   newUrl+="/api/user/login"
 }else{
