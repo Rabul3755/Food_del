@@ -4,23 +4,25 @@ import { createContext, useEffect, useState } from "react";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const url = "https://food-del-backend-ihb4.onrender.com";
+  const url = "http://localhost:4000";
   const [cartItems, setCartItems] = useState({});
   const currency ='₹'
-  const [token, setToken] = useState();
+  const [token, setToken] = useState("");
   const [food_list, setFood_list] = useState([]);
 
   const addToCart =async (itemId) => {
+ 
     if (!cartItems[itemId]) {
       setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
     } else {
       setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     }
+     console.log(itemId)
     if (token) {
       try {
         await axios.post(
           `${url}/api/cart/add`,
-          { itemId },
+          {itemId },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +39,7 @@ const StoreContextProvider = (props) => {
   const removeFormCart =async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if(token){
-      await axios.post(url+"/api/cart/remove", { itemId },
+      await axios.post(url+"/api/cart/remove", {itemId},
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,9 +51,13 @@ const StoreContextProvider = (props) => {
   const getCartTotal = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
+  
       if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItems[item];
+        
+        // let itemInfo = food_list.find((product) => product._id === item);
+     
+        // totalAmount += itemInfo.price * cartItems[item];
+         totalAmount += 5 * cartItems[item];
       }
     }
     return totalAmount;
@@ -60,16 +66,21 @@ const StoreContextProvider = (props) => {
 
   const fetchFoodlist = async () => {
     const reponse = await axios.get(url + "/api/food/list");
+   
     setFood_list(reponse.data.data);
   };
 const loadCardtData = async (token)=>{
-  const response = await axios.get(url+"/api/cart/get",{},{headers:{token}})
-  // setCartItems(response.data.cartData)
+ 
+  
+  const response = await axios.get(url+"/api/cart/get",{headers:{token}},{})
+
+  setCartItems(response.data.cartData)
 }
 
   useEffect(() => {
     async function loadData() {
       await fetchFoodlist();
+     
       if (localStorage.getItem("token")) {
         setToken(localStorage.getItem("token"));
         await loadCardtData(localStorage.getItem("token"))

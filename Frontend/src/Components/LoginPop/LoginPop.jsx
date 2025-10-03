@@ -2,41 +2,42 @@ import React, { useContext, useState } from "react";
 import "./LoginPop.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../Context/StoreContext";
-import axios from "axios"
+import axios from "axios";
 const LoginPop = ({ setShowLogin }) => {
-const {url,setToken}=useContext(StoreContext)
+  const { url, setToken } = useContext(StoreContext);
 
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
-    name:"",
-    email:"",
-    password:""
-  })
+    name: "",
+    email: "",
+    password: "",
+  });
 
- const onhangeHandler=(e)=>{
-  const name=e.target.name
-  const value = e.target.value
-  setData(data=>({...data,[name]:value}))
-}
+  const onhangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
 
-const onLogin =async (e)=>{
-e.preventDefault();
-let newUrl =url
-if(currState==="Login"){
-  newUrl+="/api/user/login"
-}else{
-  newUrl+="/api/user/register"
-}
+  const onLogin = async (e) => {
+    e.preventDefault();
+    let newUrl = url;
+    if (currState === "Login") {
+      newUrl += "/api/user/login";
+    } else {
+      newUrl += "/api/user/register";
+    }
 
-const response =await axios.post(newUrl,data)
-if(response.data.success){
-  setToken(response.data.token)
-  // localStorage.setItem("token",response.data.token)
-  setShowLogin(false)
-}else{
-  alert(response.data.massage)
-}
-}
+    const response = await axios.post(newUrl, data);
+
+    if (response.data.success) {
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      setShowLogin(false);
+    } else {
+      alert(response.data.message);
+    }
+  };
 
   return (
     <div className="login-pop">
@@ -53,10 +54,24 @@ if(response.data.success){
           {currState === "Login" ? (
             <></>
           ) : (
-            <input name="name" onChange={onhangeHandler} value={data.name} type="text" placeholder="Your name" required />
+            <input
+              name="name"
+              onChange={onhangeHandler}
+              value={data.name}
+              type="text"
+              placeholder="Your name"
+              required
+            />
           )}
 
-          <input type="email" name="email" onChange={onhangeHandler} value={data.email} placeholder="Your email" required />
+          <input
+            type="email"
+            name="email"
+            onChange={onhangeHandler}
+            value={data.email}
+            placeholder="Your email"
+            required
+          />
           <input
             type="password"
             placeholder="Password"
@@ -64,21 +79,24 @@ if(response.data.success){
             name="password"
             value={data.password}
             onChange={onhangeHandler}
-            id=""
           />
         </div>
-        <button type="submit">{currState === "Sign Up" ? "Create account" : "Login"} </button>
+        <button type="submit">
+          {currState === "Sign Up" ? "Create account" : "Login"}{" "}
+        </button>
         <div className="login-pop-condtion">
           <input type="checkbox" required />
           <p>By continuing, i agree to the terms of use & privacy policy.</p>
         </div>
         {currState === "Login" ? (
           <p>
-            Create a new account? <span onClick={() =>setCurrState("Sing Up")}>Click here</span>
+            Create a new account?{" "}
+            <span onClick={() => setCurrState("Sing Up")}>Click here</span>
           </p>
         ) : (
           <p>
-            Already have a account? <span onClick={() =>setCurrState("Login")}>Login here</span>
+            Already have a account?{" "}
+            <span onClick={() => setCurrState("Login")}>Login here</span>
           </p>
         )}
       </form>

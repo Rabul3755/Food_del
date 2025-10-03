@@ -9,13 +9,12 @@ const MyOrders = () => {
 
   const fetchOrder = async () => {
     const res = await axios.post(
-      url+"/api/order/userorders",
+      url + "/api/order/userorders",
       {},
       { headers: { token } }
     );
 
     setData(res.data.data);
-    
   };
 
   useEffect(() => {

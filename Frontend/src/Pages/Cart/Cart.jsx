@@ -23,7 +23,7 @@ const Cart = () => {
           if (cartItems[item._id] > 0) {
             return (
               <div key={index}>
-                <div className="cart-items-title cart-items-item" >
+                <div className="cart-items-title cart-items-item">
                   <img src={url + "/images/" + item.image} alt="" />
                   <p>{item.name} </p>
                   <p>${index.price} </p>
@@ -72,7 +72,7 @@ const Cart = () => {
           <div>
             <p>If you have promo code, Enter it here</p>
             <div className="cart-promo-input">
-              <input type="text" placeholder="Promo Code" name="" id="" />
+              <input type="text" placeholder="Promo Code" />
               <button>Submit</button>
             </div>
           </div>

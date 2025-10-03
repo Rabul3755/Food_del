@@ -1,19 +1,21 @@
 import React from "react";
 import "./ExploreMenu.css";
 import { menu_list } from "../../assets/assets";
-  const ExploreMenu = ({category, setCategory}) => {
+const ExploreMenu = ({ category, setCategory }) => {
   return (
     <div className="exploreMenu" id="explore-menu">
       <h1>Explore our menu</h1>
       <p className="explore-menu-text">
-        Choose from a diverse menu feacturing a delectable a array dishes. Our mission is satisfy your cravings and elevate your dining experience, one delicious meal at time.
+        Choose from a diverse menu feacturing a delectable a array dishes. Our
+        mission is satisfy your cravings and elevate your dining experience, one
+        delicious meal at time.
       </p>
       <div className="explore-menu-list">
         {menu_list.map((item, index) => {
           return (
             <div
               onClick={() =>
-                setCategory(prev =>
+                setCategory((prev) =>
                   prev === item.menu_name ? "All" : item.menu_name
                 )
               }

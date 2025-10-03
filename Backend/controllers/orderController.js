@@ -5,9 +5,9 @@ import Stripe from "stripe";
 const stripe = Stripe("sk_test_51PHKMCSBjWEqKCumAamgAt1irxONmrGivo5VI622ozBdSfzdNiLGaq9aZUd4iWZDlZvgCS1vCEK0aQPzkycBiC2U008R7w34hY");
 
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://food-del-frontend-kj5m.onrender.com";
+  const frontend_url = "http://localhost:5173";
   try {
-    // Validate input data
+ 
     const { userId, items, amount, address } = req.body;
 
     if (!userId || !items || !amount || !address) {
@@ -16,7 +16,7 @@ const placeOrder = async (req, res) => {
         .json({ success: false, message: "Missing required fields" });
     }
 
-    // Create a new order
+
     const newOrder = new orderModel({
       userId,
       items,
@@ -25,10 +25,10 @@ const placeOrder = async (req, res) => {
     });
     await newOrder.save();
 
-    // Clear user's cart
+
     await userModle.findByIdAndUpdate(userId, { cartData: {} });
 
-    // Prepare line items for Stripe
+
     const line_items = items.map((item) => {
       if (!item.name || !item.price || !item.quantity) {
         throw new Error("Invalid item data");
@@ -39,25 +39,24 @@ const placeOrder = async (req, res) => {
           product_data: {
             name: item.name,
           },
-          unit_amount: item.price * 100, // Stripe expects the amount in the smallest currency unit
+          unit_amount: item.price * 100, 
         },
         quantity: item.quantity,
       };
     });
 
-    // Add delivery charges as a separate line item
     line_items.push({
       price_data: {
         currency: "inr",
         product_data: {
           name: "Delivery Charges",
         },
-        unit_amount: 200, // Delivery charge in paise (2 INR)
+        unit_amount: 200, 
       },
       quantity: 1,
     });
 
-    // Create Stripe checkout session
+  
     const session = await stripe.checkout.sessions.create({
       line_items: line_items,
       payment_method_types: ['card'],
@@ -79,6 +78,7 @@ const verifyOrder = async (req, res) => {
   try {
     if (success == "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      
       res.json({ success: true, message: "Paid" });
     } else {
       await orderModel.findByIdAndDelete(orderId);
@@ -101,7 +101,6 @@ const userOrder = async (req, res) => {
   }
 };
 
-//Listing orders for admin panle
 const listOrders = async (req, res) => {
   try {
     const orders = await orderModel.find({});
@@ -112,7 +111,6 @@ const listOrders = async (req, res) => {
   }
 };
 
-// api for updating order status
 const updateStatus = async (req, res) => {
   try {
     await orderModel.findByIdAndUpdate(req.body.orderId, {

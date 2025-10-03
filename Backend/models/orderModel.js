@@ -8,7 +8,7 @@ const orderSchema =new mongoose.Schema({
     address:{type:Object,required:true},
     status:{type:String,default:"Food Processing"},
     data:{type:Date,default:Date.now()},
-    payment:{type:Boolean,default:false}
+    payment:{type:Boolean}
 })
 
 const orderModel =mongoose.models.order || mongoose.model("order",orderSchema)
